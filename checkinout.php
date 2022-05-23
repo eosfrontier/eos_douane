@@ -89,7 +89,7 @@
                             <img src="./images/logos/<?php echo $aRes[1]["faction"] ?>.png" />
                         </div>
                         <div class="check-right">
-                            <div class="check-name">
+                            <div class="check-name check-doublecolumn">
                                 <?php echo $aRes[1]["character_name"] ?>
                             </div>
                             <div class="check-faction">
@@ -158,8 +158,32 @@
                                     }
                                 ?>
                             </div>
-                            <?php if($aRes[1]["douane_notes"]){ ?>
+                            <?php if($aRes[1]["ic_birthday"]){ ?>
                             <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Date of Birth:
+                                </span>
+                            <?php echo $aRes[1]["ic_birthday"] ?>
+                            </div>
+                            <?php } ?>
+                            <?php if($aRes[1]["homeplanet"]){ ?>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Date of Birth:
+                                </span>
+                                <?php echo $aRes[1]["homeplanet"] ?>
+                            </div>
+                            <?php } ?>
+                            <?php if($aRes[1]["card_id"]){ ?>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    ICC ID:
+                                </span>
+                                <?php echo $aRes[1]["card_id"] ?>
+                            </div>
+                            <?php } ?>
+                            <?php if($aRes[1]["douane_notes"]){ ?>
+                            <div class="check-faction check-doublecolumn">
                                 <span class="check-subtitle">
                                     Notes:
                                 </span>
@@ -169,7 +193,7 @@
                             <?php
                                 if(isset($travels)){
                             ?>
-                            <div class="check-faction">
+                            <div class="check-faction check-doublecolumn">
                                 <span class="check-subtitle">
                                     Travel logs:
                                 </span>
