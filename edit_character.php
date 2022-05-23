@@ -61,6 +61,12 @@
                                 <?php if($sDisposition == "ICC VETTED"){ ?>
                                 <input type="radio" id="des-vetted" name="douane_disposition" value="ICC VETTED" <?php if($sDisposition == "ICC VETTED"){?>checked<?php } ?> /> <label for="des-vetted">ICC vetted</label><br />
                                 <?php } ?>
+                                <?php if($sDisposition == "AWOL"){ ?>
+                                <input type="radio" id="des-awol" name="douane_disposition" value="AWOL" <?php if($sDisposition == "AWOL"){?>checked<?php } ?> /> <label for="des-awol">AWOL</label><br />
+                                <?php } ?>
+                                <?php if($sDisposition == "MIA"){ ?>
+                                <input type="radio" id="des-mia" name="douane_disposition" value="MIA" <?php if($sDisposition == "MIA"){?>checked<?php } ?> /> <label for="des-mia">MIA</label><br />
+                                <?php } ?>
                             </div>
                             <div class="check-faction small">
                                 <span class="check-subtitle">
