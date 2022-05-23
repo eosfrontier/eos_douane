@@ -50,16 +50,18 @@
                                     Disposition:
                                 </span>
                                 <?php $sDisposition = $aRes[1]["douane_disposition"] ?>
-                                <?php if($sDisposition != "ICC VETTED" && $sDisposition != "DECEASED"){ ?>
+                                <?php if($sDisposition != "ICC VETTED" && $sDisposition != "DECEASED" && $sDisposition != "AWOL" && $sDisposition != "MIA" ){ ?>
                                 <input type="radio" id="des-pending" name="douane_disposition" value="ACCESS PENDING" <?php if($sDisposition == "ACCESS PENDING"){?>checked<?php } ?> /> <label for="des-pending">Access pending</label><br />
                                 <input type="radio" id="des-granted" name="douane_disposition" value="ACCESS GRANTED" <?php if($sDisposition == "ACCESS GRANTED"){?>checked<?php } ?> /> <label for="des-granted">Access granted</label><br />
                                 <input type="radio" id="des-detain" name="douane_disposition" value="DETAIN" <?php if($sDisposition == "DETAIN"){?>checked<?php } ?> /> <label for="des-detain">Detain</label><br />
+                                <input type="radio" id="des-awol" name="douane_disposition" value="AWOL" <?php if($sDisposition == "AWOL"){?>checked<?php } ?> /> <label for="des-awol">AWOL</label><br />
+                                <input type="radio" id="des-mia" name="douane_disposition" value="MIA" <?php if($sDisposition == "MIA"){?>checked<?php } ?> /> <label for="des-mia">MIA</label><br />
                                 <?php } ?>
                                 <?php if($sDisposition == "DECEASED"){ ?>
                                 <input type="radio" id="des-deceased" name="douane_disposition" value="DECEASED" <?php if($sDisposition == "DECEASED"){?>checked<?php } ?> /> <label for="des-deceased">Deceased</label><br />
                                 <?php } ?>
                                 <?php if($sDisposition == "ICC VETTED"){ ?>
-                                <input type="radio" id="des-vetted" name="douane_disposition" value="ICC VETTED" <?php if($sDisposition == "ICC VETTED"){?>checked<?php } ?> /> <label for="des-vetted">ICC vetted</label><br />
+                                <input type="radio" id="des-vetted" name="douane_disposition" value="ICC VETTED" <?php if($sDisposition == "ICC VETTED"){?>checked<?php } ?> /> <label for="des-vetted">ICC vetted</label><br />                               
                                 <?php } ?>
                             </div>
                             <div class="check-faction small">
