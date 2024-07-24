@@ -132,7 +132,7 @@
                     <?php if($aRes[1]["homeplanet"]){ ?>
                     <div class="check-faction">
                         <span class="check-subtitle">
-                            Date of Birth:
+                            Home Planet:
                         </span>
                         <?php echo $aRes[1]["homeplanet"] ?>
                     </div>
