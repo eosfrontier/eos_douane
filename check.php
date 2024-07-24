@@ -36,7 +36,8 @@
                 <?php } ?>
                 <div class="check-image">
                     <?php
-                    if( str_contains($aRes[1]["status"], "figu") ) {
+                    $status = $aRes[1]["status"];
+                    if( str_contains($status, "figu") ) {
                         $sImage = "./images/mugs/npc/".$aRes[1]["accountID"].".jpg";
                     }
                     else {
