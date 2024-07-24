@@ -137,10 +137,18 @@
                         <?php echo $aRes[1]["homeplanet"] ?>
                     </div>
                     <?php } ?>
-                    <?php if($aRes[1]["card_id"]){ ?>
+                    <?php if($aRes[1]["ICC_number"]){ ?>
                     <div class="check-faction">
                         <span class="check-subtitle">
                             ICC ID:
+                        </span>
+                        <?php echo $aRes[1]["ICC_number"] ?>
+                    </div>
+                    <?php } ?>
+                    <?php if($aRes[1]["card_id"]){ ?>
+                    <div class="check-faction">
+                        <span class="check-subtitle">
+                            Card ID:
                         </span>
                         <?php echo $aRes[1]["card_id"] ?>
                     </div>
