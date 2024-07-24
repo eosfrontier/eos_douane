@@ -24,4 +24,3 @@ if (!function_exists('str_contains')) {
         return (strpos($haystack, $needle) !== false);
     }
 }
-?>
