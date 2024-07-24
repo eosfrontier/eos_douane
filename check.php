@@ -36,11 +36,15 @@
                 <?php } ?>
                 <div class="check-image">
                     <?php
-                    $sImage = "./images/mugs/".$aRes[1]["characterID"].".jpg";
+                    if( str_contains($aRes[1]["status"], "figu") ) {
+                        $sImage = "./images/mugs/npc/".$aRes[1]["characterID"].".jpg";
+                    }
+                    else {
+                        $sImage = "./images/mugs/".$aRes[1]["characterID"].".jpg";
+                    }
                     if(file_exists($sImage)){
-                    ?>
-                        <img class="portrait" src="./images/mugs/<?php echo $aRes[1]["characterID"]; ?>.jpg" />
-                    <?php }else{ ?>
+                        echo '<img class="portrait" src="'.$sImage.'" />';
+                    }else{ ?>
                         <img class="portrait" src="./images/pending.png" />
                     <?php } ?>
 
