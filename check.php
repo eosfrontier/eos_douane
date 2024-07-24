@@ -38,7 +38,7 @@
                     <?php
                     $status = $aRes[1]["status"];
                     if( str_contains($status, "figu") ) {
-                        $sImage = "./images/mugs/npc/".$aRes[1]["accountID"].".jpg";
+                        $sImage = "./images/mugs/npc/".$aRes[1]["figu_accountID"].".jpg";
                     }
                     else {
                         $sImage = "./images/mugs/".$aRes[1]["characterID"].".jpg";
