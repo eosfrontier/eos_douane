@@ -5,10 +5,9 @@ if ($_SERVER["REMOTE_ADDR"] == "94.208.177.161") {
     ini_set('display_errors', 1);
 }
 
-function __autoload($classname)
-{
-    include ("classes/class.$classname.php");
-}
+spl_autoload_register(function($classname) {
+    include 'classes/class.' . $classname . '.php';
+});
 
 if (!function_exists('str_contains')) {
     /**
