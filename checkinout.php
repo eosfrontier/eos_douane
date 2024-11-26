@@ -94,9 +94,7 @@ include ('includes/inc.header.php');
                 </div>
                 <div class="check-right">
                 <div class="check-name check-doublecolumn">
-                    <?php echo $aRes[1]["character_name"] ?> <a
-                        href="edit_character.php?id=<?php echo $aRes[1]["characterID"]; ?>"><i
-                            class="fas fa-wrench"></i></a>
+                <?php echo $aRes[1]["character_name"] ?>
                 </div>
                 <table>
                     <tr>
