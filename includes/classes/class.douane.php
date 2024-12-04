@@ -48,34 +48,38 @@ class douane{
     }
 
     public function getChecking($post){
-        if(empty($post)){
+        if (empty($post)) {
             return "empty";
-        }
-
-        $stmt = db::$conn->prepare("SELECT * FROM ecc_characters WHERE ICC_number = ?");
-		$res = $stmt->execute(array($post));
-		$res = $stmt->fetch();
-
-        if($res == null){
-            $stmt = db::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ?");
+        } else {
+            $stmt = db::$conn->prepare("SELECT * FROM ecc_characters WHERE ICC_number = ?");
             $res = $stmt->execute(array($post));
-    		$res = $stmt->fetch();
-        }
+            $res = $stmt->fetch();
+            if ($res == null) {
+                $stmt = db::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id = ?");
+                $res = $stmt->execute(array($post));
+                $res = $stmt->fetch();
+                if ($res == null) {
+                    if (is_numeric($post)) {
+                        $sHex = dechex($post);
+                        $aDec = str_split($sHex, 2);
+                        if(isset($aDec[3])){
+                        $sDec = "%" . $aDec[3] . $aDec[2] . $aDec[1] . $aDec[0] . "%";
 
-        if($res == null){
-            $sHex = dechex($post);
-            $aDec = str_split($sHex, 2);
-            $sDec = "%".$aDec[3].$aDec[2].$aDec[1].$aDec[0]."%";
-
-            $stmt = db::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id LIKE ?");
-            $res = $stmt->execute(array($sDec));
-    		$res = $stmt->fetch();
-
-            //return $sDec;
-        }
-
-        if($res == null){
-            return "empty";
+                        $stmt = db::$conn->prepare("SELECT * FROM ecc_characters WHERE card_id LIKE ?");
+                        $res = $stmt->execute(array($sDec));
+                        $res = $stmt->fetch();
+                        }
+                        else {
+                            $res = null;
+                        }
+                    } else {
+                        $res = null;
+                    }
+                }
+            }
+            if ($res == null) {
+                return "empty";
+            }   
         }
 
         $char = $res;

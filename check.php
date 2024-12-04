@@ -26,6 +26,11 @@ include ('includes/inc.header.php');
                 <form action="./check.php" method="post">
                     <input name="id" type="text" class="badge-scan" autofocus />
                 </form>
+                <?php
+                  if (isset($aRes) && $aRes == "empty") {
+                    echo "<h5 style='color:red;'>Invalid Card ID or ICC Number. Please try again...</h5>";
+                    }
+                    ?>
             </div>
         <?php } ?>
         <?php if ($post == 1) { ?>
