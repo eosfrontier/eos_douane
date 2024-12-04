@@ -175,6 +175,29 @@ class douane{
             return "success";
         }
     }
+    public function getICDate()
+    {
+        $request = new HTTP_Request2();
+        $request->setUrl('https://api.eosfrontier.space/watchtower/time/');
+        $request->setMethod(HTTP_Request2::METHOD_GET);
+        $request->setConfig(array(
+            'follow_redirects' => TRUE
+        ));
+        try {
+            $ICDate = $request->send();
+            if ($ICDate->getStatus() == 200) {
+                $ICDateJSON = $ICDate->getBody();
+                $ICDateArray = json_decode($ICDateJSON);
+                $ICDateString = $ICDateArray->iDay . '-' . $ICDateArray->iMonth . '-' . $ICDateArray->iYear . $ICDateArray->iYearAfter;
+            } else {
+                echo 'Unexpected HTTP status: ' . $ICDate->getStatus() . ' ' .
+                    $ICDate->getReasonPhrase();
+            }
+        } catch (HTTP_Request2_Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+        return $ICDateString;
+    }
 
 }
 

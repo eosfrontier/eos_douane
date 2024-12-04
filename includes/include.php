@@ -23,3 +23,7 @@ if (!function_exists('str_contains')) {
         return (strpos($haystack, $needle) !== false);
     }
 }
+
+require 'vendor/autoload.php';
+$cDouane = new douane();
+$ICDateString = $cDouane->getICDate();

@@ -57,11 +57,11 @@ include ('includes/inc.header.php');
                 ?>
                 <form class="checking-form">
                     <label>Current date</label><br />
-                    <input type="text" required name="date" autofocus /><br />
+                    <input type="text" required name="date" value="<?php echo $ICDateString; ?>" /><br />
                     <label>Current time</label><br />
                     <input id="time" type="text" name="time" readonly="readonly" /><br />
                     <label>Reason</label><br />
-                    <textarea name="reason"></textarea><br />
+                    <textarea name="reason" autofocus></textarea><br />
                     <label>Notes</label><br />
                     <textarea name="note"></textarea><br />
                     <input type="hidden" name="character_id" value="<?php echo $aRes[1]["characterID"]; ?>" />
