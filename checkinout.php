@@ -12,7 +12,6 @@ if (isset($_POST["id"])) {
         }
     }
 
-
 }
 ?>
 
@@ -27,6 +26,11 @@ include ('includes/inc.header.php');
                 <form action="./checkinout.php" method="post">
                     <input name="id" type="text" class="badge-scan" autofocus />
                 </form>
+                <?php
+                  if (isset($aRes) && $aRes == "empty") {
+                    echo "<h5 style='color:red;'>Invalid Card ID or ICC Number. Please try again...</h5>";
+                    }
+                    ?>
             </div>
         <?php } ?>
         <?php if ($post == 1) { ?>
@@ -57,11 +61,11 @@ include ('includes/inc.header.php');
                 ?>
                 <form class="checking-form">
                     <label>Current date</label><br />
-                    <input type="text" required name="date" autofocus /><br />
+                    <input type="text" required name="date" value="<?php echo $ICDateString; ?>" /><br />
                     <label>Current time</label><br />
                     <input id="time" type="text" name="time" readonly="readonly" /><br />
                     <label>Reason</label><br />
-                    <textarea name="reason"></textarea><br />
+                    <textarea name="reason" autofocus></textarea><br />
                     <label>Notes</label><br />
                     <textarea name="note"></textarea><br />
                     <input type="hidden" name="character_id" value="<?php echo $aRes[1]["characterID"]; ?>" />
@@ -93,181 +97,199 @@ include ('includes/inc.header.php');
                     <img src="./images/logos/<?php echo $aRes[1]["faction"] ?>.png" />
                 </div>
                 <div class="check-right">
-                    <div class="check-name check-doublecolumn">
-                        <?php echo $aRes[1]["character_name"] ?>
-                    </div>
-                    <div class="check-faction">
-                        <span class="check-subtitle">
-                            Faction:
-                        </span>
-                        <?php echo $aRes[1]["faction"] ?>
-                    </div>
-                    <?php if ($aRes[1]["rank"]) { ?>
-                        <div class="check-faction">
-                            <span class="check-subtitle">
-                                Rank:
-                            </span>
-                            <?php echo $aRes[1]["rank"] ?>
-                        </div>
-                    <?php } ?>
-                    <div class="check-faction">
-                        <span class="check-subtitle">
-                            Disposition:
-                        </span>
-                        <?php echo $aRes[1]["douane_disposition"] ?>
-                    </div>
-                    <div class="check-faction">
-                        <span class="check-subtitle">
-                            Threat level:
-                        </span>
-                        <?php
-                        $sLevel = 5;
-                        $sDanger = $sLevel - $aRes[1]["threat_assessment"];
-                        $i = 0;
-                        while ($i < $aRes[1]["threat_assessment"]) {
-                            ?>
-                            <i class="fas fa-circle"></i>
-                            <?php
-                            $i++;
-                        }
-                        $i = 0;
-                        while ($i < $sDanger) {
-                            ?>
-                            <i class="far fa-circle"></i>
-                            <?php
-                            $i++;
-                        }
-                        ?>
-                    </div>
-                    <div class="check-faction">
-                        <span class="check-subtitle">
-                            Clearance level:
-                        </span>
-                        <?php
-                        $sLevel = 3;
-                        $sDanger = $sLevel - $aRes[1]["bastion_clearance"];
-                        $i = 0;
-                        while ($i < $aRes[1]["bastion_clearance"]) {
-                            ?>
-                            <i class="fas fa-circle"></i>
-                            <?php
-                            $i++;
-                        }
-                        $i = 0;
-                        while ($i < $sDanger) {
-                            ?>
-                            <i class="far fa-circle"></i>
-                            <?php
-                            $i++;
-                        }
-                        ?>
-                    </div>
-                    <?php if ($aRes[1]["ic_birthday"]) { ?>
-                        <div class="check-faction">
-                            <span class="check-subtitle">
-                                Date of Birth:
-                            </span>
-                            <?php echo $aRes[1]["ic_birthday"] ?>
-                        </div>
-                    <?php } ?>
-                    <?php if ($aRes[1]["homeplanet"]) { ?>
-                        <div class="check-faction">
-                            <span class="check-subtitle">
-                                Date of Birth:
-                            </span>
-                            <?php echo $aRes[1]["homeplanet"] ?>
-                        </div>
-                    <?php } ?>
-                    <?php if ($aRes[1]["card_id"]) { ?>
-                        <div class="check-faction">
-                            <span class="check-subtitle">
-                                ICC ID:
-                            </span>
-                            <?php echo $aRes[1]["card_id"] ?>
-                        </div>
-                    <?php } ?>
-                    <?php if ($aRes[1]["douane_notes"]) { ?>
-                        <div class="check-faction check-doublecolumn">
-                            <span class="check-subtitle">
-                                Notes:
-                            </span>
-                            <?php echo nl2br($aRes[1]["douane_notes"]) ?>
-                        </div>
-                    <?php } ?>
-                    <?php
-                    if (isset($travels)) {
-                        ?>
-                        <div class="check-faction check-doublecolumn">
-                            <span class="check-subtitle">
-                                Travel logs:
-                            </span>
-                            <table class="checking-table" width="100%">
-                                <thead>
-                                    <td>
-                                        <strong>Date</strong>
-                                    </td>
-                                    <td>
-                                        <strong>Time</strong>
-                                    </td>
-                                    <td>
-                                        <strong>Access</strong>
-                                    </td>
-                                    <td>
-                                        <strong>Reason</strong>
-                                    </td>
-                                    <td>
-                                        <strong>Note</strong>
-                                    </td>
-                                </thead>
-
+                <div class="check-name check-doublecolumn">
+                <?php echo $aRes[1]["character_name"] ?>
+                </div>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Faction:
+                                </span>
+                                <?php echo $aRes[1]["faction"] ?>
+                            </div>
+                            <?php if ($aRes[1]["rank"]) { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        Rank / Job:
+                                    </span>
+                                    <?php echo $aRes[1]["rank"] ?>
+                                </div>
+                            <?php } ?>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Disposition:
+                                </span>
+                                <?php echo $aRes[1]["douane_disposition"] ?>
+                            </div>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Threat level:
+                                </span>
                                 <?php
-                                foreach ($travels as $travel) {
+                                $sLevel = 5;
+                                $sDanger = $sLevel - $aRes[1]["threat_assessment"];
+                                $i = 0;
+                                while ($i < $aRes[1]["threat_assessment"]) {
                                     ?>
-                                    <tr class="travel-line">
-                                        <td class="travel-line-date">
-                                            <?php echo $travel["date"]; ?>
-                                        </td>
-                                        <td class="travel-line-time">
-                                            <?php echo $travel["time"]; ?>
-                                        </td>
-                                        <td class="travel-line-access">
-                                            <?php
-                                            if ($travel["access"] == 1) {
-                                                echo "Checked in";
-                                            } else {
-                                                echo "Checked out";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <?php if (!empty($travel["reason"])) { ?>
-
-                                                <i class="fas fa-clipboard">
-                                                    <div class="tooltip">
-                                                        <?php echo nl2br($travel["reason"]); ?>
-                                                    </div>
-                                                </i>
-                                            <?php } ?>
-                                        </td>
-                                        <td>
-                                            <?php if (!empty($travel["note"])) { ?>
-                                                <i class="fas fa-sticky-note">
-                                                    <div class="tooltip">
-                                                        <?php echo nl2br($travel["note"]); ?>
-                                                    </div>
-                                                </i>
-                                            <?php } ?>
-                                        </td>
-                                    </tr>
+                                    <i class="fas fa-circle"></i>
                                     <?php
+                                    $i++;
+                                }
+                                $i = 0;
+                                while ($i < $sDanger) {
+                                    ?>
+                                    <i class="far fa-circle"></i>
+                                    <?php
+                                    $i++;
                                 }
                                 ?>
-                            </table>
-                        </div>
-                        <?php
-                    }
+                            </div>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Clearance level:
+                                </span>
+                                <?php
+                                $sLevel = 3;
+                                $sDanger = $sLevel - $aRes[1]["bastion_clearance"];
+                                $i = 0;
+                                while ($i < $aRes[1]["bastion_clearance"]) {
+                                    ?>
+                                    <i class="fas fa-circle"></i>
+                                    <?php
+                                    $i++;
+                                }
+                                $i = 0;
+                                while ($i < $sDanger) {
+                                    ?>
+                                    <i class="far fa-circle"></i>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
+                            </div>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td>
+                            <?php if ($aRes[1]["ic_birthday"]) { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        Date of Birth:
+                                    </span>
+                                    <?php echo $aRes[1]["ic_birthday"] ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($aRes[1]["homeplanet"]) { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        Home Planet:
+                                    </span>
+                                    <?php echo $aRes[1]["homeplanet"] ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($aRes[1]["ICC_number"]) { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        ICC ID:
+                                    </span>
+                                    <?php echo $aRes[1]["ICC_number"] ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($aRes[1]["card_id"]) { ?>
+                    <div class="check-faction">
+                        <span class="check-subtitle">
+                            Card ID:
+                        </span>
+                        <?php echo $aRes[1]["card_id"] ?>
+                    </div>
+                    <?php } ?>
+                        </td>
+                    </tr>
+                <tr>
+                <?php if ($aRes[1]["douane_notes"]) { ?>
+                    <div class="check-faction check-doublecolumn">
+                        <span class="check-subtitle">
+                            Notes:
+                        </span>
+                        <?php echo nl2br($aRes[1]["douane_notes"]) ?>
+                    </div>
+                <?php } ?>
+                </tr></table>
+                <?php
+                if (isset($travels)) {
                     ?>
-                </div>
+                    <div class="check-faction check-doublecolumn">
+                        <span class="check-subtitle">
+                            Travel logs:
+                        </span>
+                        <table class="checking-table" width="100%">
+                            <thead>
+                                <td>
+                                    <strong>Date</strong>
+                                </td>
+                                <td>
+                                    <strong>Time</strong>
+                                </td>
+                                <td>
+                                    <strong>Access</strong>
+                                </td>
+                                <td>
+                                    <strong>Reason</strong>
+                                </td>
+                                <td>
+                                    <strong>Note</strong>
+                                </td>
+                            </thead>
+
+                            <?php
+                            foreach ($travels as $travel) {
+                                ?>
+                                <tr class="travel-line">
+                                    <td class="travel-line-date">
+                                        <?php echo $travel["date"]; ?>
+                                    </td>
+                                    <td class="travel-line-time">
+                                        <?php echo $travel["time"]; ?>
+                                    </td>
+                                    <td class="travel-line-access">
+                                        <?php
+                                        if ($travel["access"] == 1) {
+                                            echo "Checked in";
+                                        } else {
+                                            echo "Checked out";
+                                        }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($travel["reason"])) { ?>
+
+                                            <i class="fas fa-clipboard">
+                                                <div class="tooltip">
+                                                    <?php echo nl2br($travel["reason"]); ?>
+                                                </div>
+                                            </i>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($travel["note"])) { ?>
+                                            <i class="fas fa-sticky-note">
+                                                <div class="tooltip">
+                                                    <?php echo nl2br($travel["note"]); ?>
+                                                </div>
+                                            </i>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </table>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
             </div>
         <?php } ?>
     </div>
