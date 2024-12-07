@@ -31,7 +31,6 @@ $(".checking-form").submit(function(e){
        type: "post",
        data : form_data
        }).done(function(response){
-           console.log(response);
            if(response == "success"){
                $(".checking-form").slideToggle();
                $(".checking-success").slideToggle();
