@@ -4,10 +4,12 @@
     $cDouane = new douane();
     $aPersonals = $cDouane->getAllPersonal();
 
+
 ?>
 
     <?php
         include('includes/inc.header.php');
+
     ?>
     <div id="main">
         <div class="container">
@@ -59,11 +61,7 @@
                     </td>
                     <td class="travel-line-access">
                         <?php
-                            if($aPersonal["access"] == 1){
-                                echo "Checked in";
-                            }else{
-                                echo "Checked out";
-                            }
+                            echo $aPersonal['douane_disposition'];
                          ?>
                     </td>
                     <td>
