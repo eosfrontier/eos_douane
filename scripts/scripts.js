@@ -21,13 +21,10 @@ $("form.checking-form input").keypress(function(e) {
   });
 
 $(".checking-form").submit(function(e){
-    if(e.keyCode == 13) {
-        e.preventDefault();
-        return false;
-      }
+    e.preventDefault();
     var form_data = $(".checking-form").serialize();
     formsubmit(form_data);
- 
+
     function formsubmit(form_data){
        $.ajax({
        url : "xf.php",
