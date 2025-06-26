@@ -171,7 +171,7 @@ class douane{
         $rank = $_POST["rank"];
         $characterID = $_POST["characterID"];
 
-        $sql = "update ecc_characters SET douane_disposition=?, douane_notes=?, threat_assessment=?, bastion_clearance=?, rank=? WHERE characterID=?";
+        $sql = "update ecc_characters SET douane_disposition=?, douane_notes=?, threat_assessment=?, bastion_clearance=?, ecc_characters.rank=? WHERE characterID=?";
         $stmt = db::$conn->prepare($sql);
         $result = $stmt->execute([$douane_disposition, $douane_notes, $threat_assessment, $bastion_clearance, $rank, $characterID]);
 
