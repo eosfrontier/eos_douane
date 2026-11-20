@@ -8,9 +8,15 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" href="css/all.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script>
+    <?php
+        $sAllCssPath = __DIR__ . '/../css/all.css';
+        $sStyleCssPath = __DIR__ . '/../css/style.css';
+        $sAllCssVer = file_exists($sAllCssPath) ? (string)filemtime($sAllCssPath) : '1';
+        $sStyleCssVer = file_exists($sStyleCssPath) ? (string)filemtime($sStyleCssPath) : '1';
+    ?>
+    <link rel="stylesheet" href="css/all.css?v=<?php echo $sAllCssVer; ?>">
+    <link rel="stylesheet" href="css/style.css?v=<?php echo $sStyleCssVer; ?>">
+    <script data-cfasync="false">
         (function () {
             try {
                 if (localStorage.getItem('douane_a11y') === '1') {

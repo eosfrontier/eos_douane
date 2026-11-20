@@ -581,6 +581,10 @@
     <?php
         include('includes/inc.footer.php');
     ?>
-    <script src="scripts/checkbastion.js" type="text/javascript"></script>
+    <?php
+        $sBastionJsPath = __DIR__ . '/scripts/checkbastion.js';
+        $sBastionJsVer = file_exists($sBastionJsPath) ? (string)filemtime($sBastionJsPath) : '1';
+    ?>
+    <script data-cfasync="false" src="scripts/checkbastion.js?v=<?php echo $sBastionJsVer; ?>" type="text/javascript"></script>
 </body>
 </html>
