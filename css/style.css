@@ -352,6 +352,79 @@ div.tooltip {
     cursor: pointer;
 }
 
+.checking-field-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.checking-field-header label {
+    margin: 0;
+}
+
+.field-override-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.85);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s linear, color 0.15s linear, background-color 0.15s linear;
+}
+
+.field-override-btn:hover,
+.field-override-btn:focus-visible {
+    border-color: #ff8a00;
+    color: #ff8a00;
+    outline: none;
+}
+
+.field-override-btn.is-active {
+    border-color: #ff8a00;
+    background: rgba(255, 138, 0, 0.18);
+    color: #ff8a00;
+}
+
+.field-override-btn.is-active:hover:not(:disabled),
+.field-override-btn.is-active:focus-visible:not(:disabled) {
+    background: #ff8a00;
+    color: #000;
+}
+
+.field-override-btn:disabled {
+    opacity: 0.7;
+    cursor: default;
+}
+
+.checking-form input.is-locked,
+.checking-form input[readonly] {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.68);
+    cursor: not-allowed;
+}
+
+.checking-form input.is-locked:focus,
+.checking-form input[readonly]:focus {
+    border-color: rgba(255, 255, 255, 0.65);
+}
+
+.checking-form input.is-overridden {
+    border-color: #ff8a00;
+    background: #140b00;
+    color: #fff;
+}
+
 .checking-success {
     font-size: 22px;
     display: none;

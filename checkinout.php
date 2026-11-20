@@ -59,11 +59,47 @@ include ('includes/inc.header.php');
                     $success = "Checked out";
                 }
                 ?>
+                <?php
+                $sDefaultDate = isset($ICDateString) ? htmlspecialchars((string)$ICDateString, ENT_QUOTES, 'UTF-8') : '';
+                $bDateEmpty = ($sDefaultDate === '');
+                ?>
                 <form class="checking-form">
-                    <label>Current date</label><br />
-                    <input type="text" required name="date" value="<?php echo $ICDateString; ?>" /><br />
-                    <label>Current time</label><br />
-                    <input id="time" type="text" name="time" readonly="readonly" /><br />
+                    <div class="checking-field-header">
+                        <label for="checkin-date">Current date</label>
+                        <button type="button"
+                                class="field-override-btn<?php echo $bDateEmpty ? ' is-active' : ''; ?>"
+                                data-override-target="checkin-date"
+                                aria-pressed="<?php echo $bDateEmpty ? 'true' : 'false'; ?>"
+                                <?php if ($bDateEmpty) { ?>disabled="disabled"<?php } ?>
+                                title="<?php echo $bDateEmpty ? 'No auto-filled date available; enter a date manually' : 'Unlock Current date to enter a manual value'; ?>">
+                            <i class="fas <?php echo $bDateEmpty ? 'fa-lock-open' : 'fa-lock'; ?>" aria-hidden="true"></i>
+                            <span><?php echo $bDateEmpty ? 'Manual' : 'Override'; ?></span>
+                        </button>
+                    </div>
+                    <input id="checkin-date"
+                           type="text"
+                           required
+                           name="date"
+                           value="<?php echo $sDefaultDate; ?>"
+                           data-default-value="<?php echo $sDefaultDate; ?>"
+                           <?php if (!$bDateEmpty) { ?>readonly="readonly" class="is-locked"<?php } else { ?>class="is-overridden"<?php } ?> /><br />
+                    <div class="checking-field-header">
+                        <label for="time">Current time</label>
+                        <button type="button"
+                                class="field-override-btn"
+                                data-override-target="time"
+                                aria-pressed="false"
+                                title="Unlock Current time to enter a manual value">
+                            <i class="fas fa-lock" aria-hidden="true"></i>
+                            <span>Override</span>
+                        </button>
+                    </div>
+                    <input id="time"
+                           type="text"
+                           required
+                           name="time"
+                           readonly="readonly"
+                           class="is-locked" /><br />
                     <label>Reason</label><br />
                     <textarea name="reason" autofocus></textarea><br />
                     <label>Notes</label><br />
@@ -303,26 +339,114 @@ include ('includes/inc.footer.php');
 ?>
 <?php if ($post == 1) { ?>
     <script>
-        function startTime() {
-            var today = new Date();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            h = checkTime(h);
-            m = checkTime(m);
-            s = checkTime(s);
-            document.getElementById('time').value = h + ":" + m + ":" + s;
-            var t = setTimeout(function () { startTime() }, 1000);
-        }
+        (function () {
+            var timeInput = document.getElementById('time');
+            var timeTimer = null;
+            var timeOverridden = false;
 
-        function checkTime(i) {
-            if (i < 10) { i = "0" + i } // add zero in front of numbers < 10
-            return i;
-        }
+            function checkTime(i) {
+                return (i < 10) ? ("0" + i) : String(i);
+            }
 
-        startTime();
-    <?php } ?>
-</script>
+            function updateClock() {
+                if (timeOverridden || !timeInput) {
+                    return;
+                }
+                var today = new Date();
+                var h = checkTime(today.getHours());
+                var m = checkTime(today.getMinutes());
+                var s = checkTime(today.getSeconds());
+                timeInput.value = h + ":" + m + ":" + s;
+                timeTimer = setTimeout(updateClock, 1000);
+            }
+
+            function stopClock() {
+                if (timeTimer !== null) {
+                    clearTimeout(timeTimer);
+                    timeTimer = null;
+                }
+            }
+
+            function setButtonState(btn, unlocked, labelText) {
+                var icon = btn.querySelector('i');
+                var span = btn.querySelector('span');
+                btn.setAttribute('aria-pressed', unlocked ? 'true' : 'false');
+                if (unlocked) {
+                    btn.classList.add('is-active');
+                    btn.title = 'Re-lock ' + labelText + ' and restore auto-filled value';
+                    if (icon) {
+                        icon.classList.remove('fa-lock');
+                        icon.classList.add('fa-lock-open');
+                    }
+                    if (span) {
+                        span.textContent = 'Auto';
+                    }
+                } else {
+                    btn.classList.remove('is-active');
+                    btn.title = 'Unlock ' + labelText + ' to enter a manual value';
+                    if (icon) {
+                        icon.classList.remove('fa-lock-open');
+                        icon.classList.add('fa-lock');
+                    }
+                    if (span) {
+                        span.textContent = 'Override';
+                    }
+                }
+            }
+
+            var buttons = document.querySelectorAll('.checking-form .field-override-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', function () {
+                    var btn = this;
+                    var targetId = btn.getAttribute('data-override-target');
+                    var input = document.getElementById(targetId);
+                    if (!input) {
+                        return;
+                    }
+                    var labelEl = document.querySelector('label[for="' + targetId + '"]');
+                    var labelText = labelEl ? labelEl.textContent.trim() : targetId;
+                    var isCurrentlyLocked = input.readOnly;
+
+                    if (isCurrentlyLocked) {
+                        // Unlock for manual entry
+                        input.readOnly = false;
+                        input.removeAttribute('readonly');
+                        input.classList.remove('is-locked');
+                        input.classList.add('is-overridden');
+                        if (targetId === 'time') {
+                            timeOverridden = true;
+                            stopClock();
+                        }
+                        setButtonState(btn, true, labelText);
+                        input.focus();
+                        if (typeof input.select === 'function') {
+                            input.select();
+                        }
+                    } else {
+                        // Re-lock and restore autofilled value
+                        input.readOnly = true;
+                        input.setAttribute('readonly', 'readonly');
+                        input.classList.remove('is-overridden');
+                        input.classList.add('is-locked');
+                        if (targetId === 'time') {
+                            timeOverridden = false;
+                            stopClock();
+                            updateClock();
+                        } else {
+                            var defaultVal = input.getAttribute('data-default-value');
+                            if (defaultVal !== null) {
+                                input.value = defaultVal;
+                            }
+                        }
+                        setButtonState(btn, false, labelText);
+                    }
+                });
+            }
+
+            updateClock();
+        })();
+    </script>
+<?php } ?>
 </body>
 
 </html>
