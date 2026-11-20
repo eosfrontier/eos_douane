@@ -758,7 +758,7 @@ input[type=checkbox]+label:before {
 }
 
 .bastion-table thead {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.84);
 }
 
 .bastion-sort-row th {
@@ -982,13 +982,30 @@ input[type=checkbox]+label:before {
     outline: none;
 }
 
+.bastion-table tbody {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+
 .bastion-table tbody tr.travel-line {
+    background: rgba(0, 0, 0, 0.78);
     border-bottom: 1px solid rgba(255, 255, 255, 0.14);
     transition: background-color 0.12s linear;
 }
 
+.bastion-table tbody tr.travel-line:nth-child(even) {
+    background: rgba(20, 25, 30, 0.84);
+}
+
+.bastion-table tbody tr.travel-line.is-row-odd {
+    background: rgba(0, 0, 0, 0.78);
+}
+
+.bastion-table tbody tr.travel-line.is-row-even {
+    background: rgba(20, 25, 30, 0.84);
+}
+
 .bastion-table tbody tr.travel-line:hover {
-    background: rgba(255, 138, 0, 0.08);
+    background: rgba(48, 28, 6, 0.86);
 }
 
 .bastion-table tbody td {
@@ -1021,6 +1038,10 @@ input[type=checkbox]+label:before {
     word-wrap: break-word;
     text-align: left;
     pointer-events: none;
+}
+
+.bastion-empty-row {
+    background: rgba(0, 0, 0, 0.78);
 }
 
 .bastion-empty-row td {

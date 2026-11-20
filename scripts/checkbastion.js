@@ -504,6 +504,20 @@
             }
         }
 
+        function updateRowStriping() {
+            var visibleIdx = 0;
+            rowRecords.forEach(function (rec) {
+                if (!rec.el || !rec.el.classList) {
+                    return;
+                }
+                rec.el.classList.remove("is-row-odd", "is-row-even");
+                if (!rec.el.hidden) {
+                    rec.el.classList.add((visibleIdx % 2 === 0) ? "is-row-odd" : "is-row-even");
+                    visibleIdx++;
+                }
+            });
+        }
+
         function applySort() {
             rowRecords.sort(function (a, b) {
                 for (var i = 0; i < sortOrder.length; i++) {
@@ -528,6 +542,7 @@
             }
             tbody.appendChild(frag);
 
+            updateRowStriping();
             updateHeaderIndicators();
             renderSortBar();
         }
@@ -683,6 +698,8 @@
                     visibleCount++;
                 }
             });
+
+            updateRowStriping();
 
             if (emptyRow) {
                 var showEmpty = (totalCount === 0) || (visibleCount === 0);
