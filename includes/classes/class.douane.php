@@ -114,6 +114,10 @@ class douane{
 		$res = $stmt->execute(array($post));
 		$res = $stmt->fetch();
 
+        if (!$res) {
+            return "empty";
+        }
+
         $char = $res;
 
         $id = $res["characterID"];
@@ -164,12 +168,12 @@ class douane{
     }
 
     public function editCharacter($post){
-        $douane_notes = $_POST["douane_notes"];
-        $douane_disposition = $_POST["douane_disposition"];
-        $threat_assessment = $_POST["threat_assessment"];
-        $bastion_clearance = $_POST["bastion_clearance"];
-        $rank = $_POST["rank"];
-        $characterID = $_POST["characterID"];
+        $douane_notes = isset($_POST["douane_notes"]) ? $_POST["douane_notes"] : '';
+        $douane_disposition = isset($_POST["douane_disposition"]) ? $_POST["douane_disposition"] : '';
+        $threat_assessment = isset($_POST["threat_assessment"]) ? $_POST["threat_assessment"] : 0;
+        $bastion_clearance = isset($_POST["bastion_clearance"]) ? $_POST["bastion_clearance"] : 0;
+        $rank = isset($_POST["rank"]) ? $_POST["rank"] : '';
+        $characterID = isset($_POST["characterID"]) ? $_POST["characterID"] : '';
 
         $sql = "update ecc_characters SET douane_disposition=?, douane_notes=?, threat_assessment=?, bastion_clearance=?, ecc_characters.rank=? WHERE characterID=?";
         $stmt = db::$conn->prepare($sql);

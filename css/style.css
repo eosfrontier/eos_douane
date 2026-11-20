@@ -401,3 +401,955 @@ input[type=radio]+label:before {
 input[type=checkbox]+label:before {
     border-radius: 2px;
 }
+
+/*-- CHECK BASTION TABLE --*/
+
+.bastion-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.bastion-toolbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.bastion-sort-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.bastion-sort-bar-left {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.bastion-sort-bar-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+}
+
+.bastion-sort-pills {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.bastion-sort-none {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
+.bastion-sort-pill {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ff8a00;
+    background: rgba(255, 138, 0, 0.14);
+    color: #fff;
+    line-height: 1;
+}
+
+.bastion-sort-pill-2 {
+    border-color: rgba(255, 138, 0, 0.6);
+    background: rgba(255, 138, 0, 0.06);
+}
+
+.bastion-sort-pill-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 6px;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.15s linear, background-color 0.15s linear;
+}
+
+.bastion-sort-pill-main:hover,
+.bastion-sort-pill-main:focus-visible {
+    background: rgba(255, 138, 0, 0.22);
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-pill-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 3px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    background: #ff8a00;
+    color: #000;
+}
+
+.bastion-sort-pill-2 .bastion-pill-rank {
+    background: transparent;
+    color: #ff8a00;
+    border: 1px solid #ff8a00;
+    box-sizing: border-box;
+}
+
+.bastion-pill-icon {
+    color: #ff8a00;
+    font-size: 12px;
+}
+
+.bastion-pill-icon.fa-sort-up {
+    transform: translateY(3px);
+}
+
+.bastion-pill-icon.fa-sort-down {
+    transform: translateY(-3px);
+}
+
+.bastion-sort-pill-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 6px;
+    background: transparent;
+    border: 0;
+    border-left: 1px solid rgba(255, 138, 0, 0.4);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 10px;
+    cursor: pointer;
+    transition: color 0.15s linear, background-color 0.15s linear;
+}
+
+.bastion-sort-pill-remove:hover,
+.bastion-sort-pill-remove:focus-visible {
+    background: rgba(255, 138, 0, 0.28);
+    color: #fff;
+    outline: none;
+}
+
+.bastion-sort-swap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 22px;
+    padding: 0;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 11px;
+    cursor: pointer;
+    transition: border-color 0.15s linear, color 0.15s linear;
+}
+
+.bastion-sort-swap:hover,
+.bastion-sort-swap:focus-visible {
+    border-color: #ff8a00;
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-sort-hint {
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 11px;
+    margin-left: 4px;
+}
+
+.bastion-sort-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bastion-sort-action-btn {
+    background: #000;
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 3px 9px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.15s linear;
+}
+
+.bastion-sort-action-btn:hover:not(:disabled),
+.bastion-sort-action-btn:focus-visible:not(:disabled) {
+    border-color: #ff8a00;
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-sort-action-btn:disabled {
+    border-color: rgba(255, 255, 255, 0.22);
+    color: rgba(255, 255, 255, 0.32);
+    cursor: default;
+}
+
+.bastion-sort-action-btn i {
+    margin-right: 4px;
+}
+
+.bastion-count {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.78);
+    letter-spacing: 0.04em;
+}
+
+.bastion-clear-btn {
+    background: #000;
+    color: #fff;
+    border: 1px solid #ff8a00;
+    padding: 5px 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.15s linear;
+}
+
+.bastion-clear-btn:hover:not(:disabled),
+.bastion-clear-btn:focus-visible:not(:disabled) {
+    background: #ff8a00;
+    color: #000;
+    outline: none;
+}
+
+.bastion-clear-btn:disabled {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.38);
+    cursor: default;
+}
+
+.bastion-clear-btn i {
+    margin-right: 4px;
+}
+
+.bastion-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 40px;
+}
+
+.bastion-col-name {
+    width: 22%;
+}
+
+.bastion-col-faction {
+    width: 11%;
+}
+
+.bastion-col-date {
+    width: 12%;
+}
+
+.bastion-col-time {
+    width: 10%;
+}
+
+.bastion-col-access {
+    width: 15%;
+}
+
+.bastion-col-reason {
+    width: 15%;
+}
+
+.bastion-col-note {
+    width: 15%;
+}
+
+.bastion-table thead {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.bastion-sort-row th {
+    padding: 0;
+    text-align: left;
+    vertical-align: bottom;
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.bastion-sort-btn {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 10px 8px 6px;
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.15s linear;
+}
+
+.bastion-sort-btn:hover,
+.bastion-sort-btn:focus-visible {
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-sort-btn:focus-visible {
+    box-shadow: inset 0 -2px 0 #ff8a00;
+}
+
+.bastion-sort-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.bastion-sort-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    background: #ff8a00;
+    color: #000;
+}
+
+.bastion-sort-cell[data-sort-rank="2"] .bastion-sort-rank {
+    background: rgba(255, 138, 0, 0.14);
+    color: #ff8a00;
+    border: 1px solid #ff8a00;
+}
+
+.bastion-sort-icon {
+    flex-shrink: 0;
+    font-size: 13px;
+    opacity: 0.4;
+    transition: opacity 0.15s linear, color 0.15s linear;
+}
+
+.bastion-sort-btn:hover .bastion-sort-icon {
+    opacity: 0.85;
+}
+
+.bastion-sort-cell[data-sort-rank="1"] .bastion-sort-btn {
+    color: #ff8a00;
+}
+
+.bastion-sort-cell[data-sort-rank="2"] .bastion-sort-btn {
+    color: #ffbe66;
+}
+
+.bastion-sort-cell[aria-sort="ascending"] .bastion-sort-icon,
+.bastion-sort-cell[aria-sort="descending"] .bastion-sort-icon {
+    opacity: 1;
+    color: #ff8a00;
+}
+
+.bastion-sort-cell[data-sort-rank="2"] .bastion-sort-icon {
+    opacity: 0.85;
+}
+
+.bastion-sort-icon.fa-sort-up {
+    transform: translateY(3px);
+}
+
+.bastion-sort-icon.fa-sort-down {
+    transform: translateY(-3px);
+}
+
+.bastion-filter-row th {
+    padding: 4px 6px 10px;
+    vertical-align: middle;
+    font-weight: normal;
+    text-align: left;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.bastion-filter-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+}
+
+.bastion-filter-combo {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.bastion-filter-combo .bastion-filter-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.bastion-filter-input,
+.bastion-filter-select {
+    box-sizing: border-box;
+    width: 100%;
+    height: 28px;
+    background: #000;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    color-scheme: dark;
+    transition: border-color 0.15s linear, background-color 0.15s linear, box-shadow 0.15s linear;
+}
+
+.bastion-filter-input {
+    padding: 2px 22px 2px 7px;
+}
+
+.bastion-filter-input[list]:placeholder-shown {
+    padding-right: 6px;
+}
+
+.bastion-filter-input[list]:not(:placeholder-shown)::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.bastion-filter-select {
+    padding: 2px 4px;
+    cursor: pointer;
+}
+
+.bastion-filter-select option {
+    background: #000;
+    color: #fff;
+}
+
+.bastion-filter-presence {
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.bastion-filter-input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.bastion-filter-input:hover,
+.bastion-filter-select:hover {
+    border-color: #fff;
+}
+
+.bastion-filter-input:focus,
+.bastion-filter-select:focus {
+    outline: none;
+    border-color: #ff8a00;
+    box-shadow: 0 0 0 1px rgba(255, 138, 0, 0.35);
+}
+
+.bastion-filter-input.is-active,
+.bastion-filter-select.is-active {
+    border-color: #ff8a00;
+    background: #1a0d00;
+}
+
+.bastion-filter-clear {
+    position: absolute;
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 11px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.15s linear;
+}
+
+.bastion-filter-clear:hover,
+.bastion-filter-clear:focus-visible {
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-table tbody tr.travel-line {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    transition: background-color 0.12s linear;
+}
+
+.bastion-table tbody tr.travel-line:hover {
+    background: rgba(255, 138, 0, 0.08);
+}
+
+.bastion-table tbody td {
+    padding: 6px 8px;
+    vertical-align: middle;
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.bastion-table .name-submit {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.4;
+}
+
+.bastion-icon-cell i {
+    cursor: pointer;
+    transition: color 0.15s linear;
+}
+
+.bastion-icon-cell i:hover {
+    color: #ff8a00;
+}
+
+.bastion-table div.tooltip {
+    z-index: 200;
+    line-height: 1.45;
+    white-space: normal;
+    word-wrap: break-word;
+    text-align: left;
+    pointer-events: none;
+}
+
+.bastion-empty-row td {
+    padding: 24px 8px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.bastion-table [hidden],
+.bastion-filter-clear[hidden] {
+    display: none !important;
+}
+
+/*-- CHECK BASTION MODAL --*/
+
+body.bastion-modal-open {
+    overflow: hidden;
+}
+
+.bastion-modal[hidden] {
+    display: none !important;
+}
+
+.bastion-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.bastion-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.84);
+    backdrop-filter: blur(2px);
+}
+
+.bastion-modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1060px;
+    max-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
+    background: #05080a url(../images/bg.png) repeat;
+    border: 2px solid #fff;
+    box-shadow: 0 0 36px rgba(0, 0, 0, 0.95), 0 0 18px rgba(57, 219, 204, 0.2);
+    color: #fff;
+    overflow: hidden;
+    transition: border-color 0.2s linear, box-shadow 0.2s linear;
+}
+
+.bastion-modal-dialog:focus {
+    outline: none;
+}
+
+.bastion-modal-dialog.is-detain {
+    border-color: #f00001;
+    box-shadow: 0 0 36px rgba(0, 0, 0, 0.95), 0 0 24px rgba(240, 0, 1, 0.45);
+}
+
+.bastion-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 18px;
+    background: rgba(0, 0, 0, 0.88);
+    border-bottom: 2px solid #ff8a00;
+    flex-shrink: 0;
+}
+
+.bastion-modal-dialog.is-detain .bastion-modal-header {
+    border-bottom-color: #f00001;
+}
+
+.bastion-modal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.bastion-modal-heading {
+    min-width: 0;
+}
+
+.bastion-modal-crumb {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #ff8a00;
+    line-height: 1.3;
+}
+
+.bastion-modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bastion-modal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    background: #000;
+    border: 1px solid #fff;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s linear, color 0.15s linear;
+}
+
+.bastion-modal-back[hidden] {
+    display: none !important;
+}
+
+.bastion-modal-back:hover,
+.bastion-modal-back:focus-visible {
+    border-color: #ff8a00;
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s linear, color 0.15s linear, background-color 0.15s linear;
+}
+
+.bastion-modal-close:hover,
+.bastion-modal-close:focus-visible {
+    border-color: #ff8a00;
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-modal-body {
+    padding: 24px 26px;
+    overflow-y: auto;
+    flex: 1;
+    line-height: 1.7;
+    color-scheme: dark;
+}
+
+.bastion-modal-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 64px 20px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.bastion-modal-loading i {
+    color: #ff8a00;
+    font-size: 22px;
+}
+
+.bastion-modal-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: rgba(57, 219, 204, 0.12);
+    border: 1px solid #39dbcc;
+    color: #39dbcc;
+    font-size: 13px;
+}
+
+.bastion-modal-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px;
+    background: rgba(240, 0, 1, 0.12);
+    border: 1px solid #f00001;
+    color: #ff6b6b;
+    font-size: 14px;
+}
+
+.bastion-modal-form-error {
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: rgba(240, 0, 1, 0.15);
+    border: 1px solid #f00001;
+    color: #ff6b6b;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+}
+
+.bastion-modal-form-error[hidden] {
+    display: none !important;
+}
+
+.bastion-modal-body .check-warning {
+    font-size: 22px;
+    margin-bottom: 18px;
+    padding: 8px 14px;
+    background: rgba(240, 0, 1, 0.16);
+    border: 1px solid #f00001;
+    text-align: center;
+}
+
+.bastion-modal-body .check-image {
+    width: 220px;
+    margin-right: 26px;
+}
+
+.bastion-modal-body .check-image img.portrait {
+    width: auto;
+    max-width: 100%;
+    max-height: 200px;
+}
+
+.bastion-modal-body .check-image img.faction-logo {
+    margin-top: 14px;
+    width: auto;
+    max-width: 100%;
+    max-height: 150px;
+}
+
+.bastion-modal-body .check-right {
+    width: calc(100% - 246px);
+    font-size: 16px;
+}
+
+.bastion-modal-body .check-name {
+    font-size: 28px;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.bastion-edit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border: 1px solid #fff;
+    background: #000;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.bastion-edit-link:hover,
+.bastion-edit-link:focus-visible {
+    border-color: #ff8a00;
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-modal-body .check-details-grid {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bastion-modal-body .check-details-grid td {
+    vertical-align: top;
+}
+
+.bastion-modal-body .check-details-spacer {
+    width: 32px;
+}
+
+.bastion-modal-body .check-faction {
+    margin-bottom: 14px;
+}
+
+.bastion-modal-body .check-faction.small {
+    position: relative;
+    margin-right: 36px;
+    margin-bottom: 18px;
+}
+
+.bastion-modal-body .check-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.bastion-modal-body .checking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+.bastion-modal-body .checking-table thead th {
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+    font-size: 12px;
+}
+
+.bastion-modal-body .checking-table tbody td {
+    padding: 5px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.bastion-modal-body .checking-table div.tooltip {
+    z-index: 1050;
+    width: 260px;
+    left: -275px;
+    font-size: 13px;
+    line-height: 1.4;
+    pointer-events: none;
+}
+
+.bastion-edit-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.bastion-modal-body .edit-submit {
+    font-size: 16px;
+    padding: 7px 18px;
+}
+
+.bastion-modal-body .edit-submit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.bastion-edit-cancel {
+    color: rgba(255, 255, 255, 0.85);
+    background: #000;
+    border: solid 2px rgba(255, 255, 255, 0.55);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+
+.bastion-edit-cancel:hover,
+.bastion-edit-cancel:focus-visible {
+    border-color: #ff8a00;
+    color: #ff8a00;
+    outline: none;
+}
+
+.bastion-modal-body .checking-success {
+    padding: 20px;
+    border: 1px solid #39dbcc;
+    background: rgba(57, 219, 204, 0.1);
+    color: #fff;
+    font-size: 18px;
+}
+
+@media (max-width: 780px) {
+    .bastion-modal-body .check-image,
+    .bastion-modal-body .check-right {
+        float: none;
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .bastion-modal-body .check-image {
+        margin-bottom: 18px;
+    }
+}

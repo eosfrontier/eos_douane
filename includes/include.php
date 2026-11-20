@@ -26,4 +26,6 @@ if (!function_exists('str_contains')) {
 
 require 'vendor/autoload.php';
 $cDouane = new douane();
-$ICDateString = $cDouane->getICDate();
+if (empty($skipICDate)) {
+    $ICDateString = $cDouane->getICDate();
+}

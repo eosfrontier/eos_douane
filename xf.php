@@ -1,4 +1,5 @@
 <?php
+    $skipICDate = true;
     include('includes/include.php');
     $cDouane = new douane();
 

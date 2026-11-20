@@ -1,17 +1,257 @@
 <?php
+$bIsModal = (isset($_REQUEST["modal"]) && $_REQUEST["modal"] == "1");
+if ($bIsModal) {
+    $skipICDate = true;
+}
 include ('includes/include.php');
-$post = 0;
-if (isset($_POST["id"])) {
-    $cDouane = new douane();
-    $sId = $_POST["id"];
-    $aRes = $cDouane->getChecking($sId);
-    if ($aRes != "empty") {
-        $post = 1;
-        if (isset($aRes[2])) {
-            $travels = $aRes[2];
-        }
-    }
 
+$escape = function ($value) {
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+};
+
+$post = 0;
+$aRes = null;
+$cDouane = new douane();
+
+if (isset($_POST["id"]) && trim((string)$_POST["id"]) !== "") {
+    $aRes = $cDouane->getChecking($_POST["id"]);
+}
+if (($aRes === null || $aRes === "empty") && isset($_POST["character_id"]) && trim((string)$_POST["character_id"]) !== "") {
+    $aRes = $cDouane->getEditById($_POST["character_id"]);
+} elseif ($aRes === null && isset($_POST["id"])) {
+    $aRes = $cDouane->getChecking($_POST["id"]);
+}
+
+if (is_array($aRes)) {
+    $post = 1;
+    if (isset($aRes[2])) {
+        $travels = $aRes[2];
+    }
+}
+
+if ($bIsModal) {
+    if (!headers_sent()) {
+        header('Content-Type: text/html; charset=utf-8');
+        header('Cache-Control: no-store, no-cache, must-revalidate');
+    }
+    if ($post == 1) {
+        $char = $aRes[1];
+        $sCharName = isset($char["character_name"]) ? (string)$char["character_name"] : '';
+        $sCharId = isset($char["characterID"]) ? (string)$char["characterID"] : '';
+        $sIcc = isset($char["ICC_number"]) ? (string)$char["ICC_number"] : '';
+        $sDisposition = isset($char["douane_disposition"]) ? (string)$char["douane_disposition"] : '';
+        $sFaction = isset($char["faction"]) ? (string)$char["faction"] : '';
+        $sRank = isset($char["rank"]) ? (string)$char["rank"] : '';
+        $sStatus = isset($char["status"]) ? (string)$char["status"] : '';
+        $iThreat = isset($char["threat_assessment"]) ? (int)$char["threat_assessment"] : 0;
+        $iClearance = isset($char["bastion_clearance"]) ? (int)$char["bastion_clearance"] : 0;
+        $sBirthday = isset($char["ic_birthday"]) ? (string)$char["ic_birthday"] : '';
+        $sHomeplanet = isset($char["homeplanet"]) ? (string)$char["homeplanet"] : '';
+        $sCardId = isset($char["card_id"]) ? (string)$char["card_id"] : '';
+        $sNotes = isset($char["douane_notes"]) ? (string)$char["douane_notes"] : '';
+        if (str_contains($sStatus, "figu")) {
+            $sFiguId = isset($char["figu_accountID"]) ? (string)$char["figu_accountID"] : '';
+            $sImage = "./images/mugs/npc/" . $sFiguId . ".jpg";
+        } else {
+            $sImage = "./images/mugs/" . $sCharId . ".jpg";
+        }
+        ?>
+        <div class="bastion-modal-profile"
+             data-character-name="<?php echo $escape($sCharName); ?>"
+             data-character-id="<?php echo $escape($sCharId); ?>"
+             data-icc-number="<?php echo $escape($sIcc); ?>"
+             data-disposition="<?php echo $escape($sDisposition); ?>">
+            <?php if ($sDisposition == "DETAIN") { ?>
+                <div class="check-warning">
+                    WARNING -- DETAIN -- WARNING
+                </div>
+            <?php } ?>
+            <div class="check-image">
+                <?php if (file_exists($sImage)) { ?>
+                    <img class="portrait" src="<?php echo $escape($sImage); ?>" alt="<?php echo $escape($sCharName); ?>" />
+                <?php } else { ?>
+                    <img class="portrait" src="./images/pending.png" alt="Pending portrait" />
+                <?php } ?>
+                <?php if ($sFaction !== '') { ?>
+                    <img class="faction-logo" src="./images/logos/<?php echo $escape($sFaction); ?>.png" alt="<?php echo $escape($sFaction); ?>" />
+                <?php } ?>
+            </div>
+            <div class="check-right">
+                <div class="check-name check-doublecolumn">
+                    <span><?php echo $escape($sCharName); ?></span>
+                    <a class="bastion-edit-link"
+                       href="edit_character.php?id=<?php echo rawurlencode($sCharId); ?>"
+                       data-character-id="<?php echo $escape($sCharId); ?>"
+                       title="Edit character"><i class="fas fa-wrench" aria-hidden="true"></i> Edit</a>
+                </div>
+                <table class="check-details-grid">
+                    <tr>
+                        <td>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Faction:
+                                </span>
+                                <?php echo $escape($sFaction); ?>
+                            </div>
+                            <?php if ($sRank !== '') { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        Rank / Job:
+                                    </span>
+                                    <?php echo $escape($sRank); ?>
+                                </div>
+                            <?php } ?>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Disposition:
+                                </span>
+                                <?php echo $escape($sDisposition); ?>
+                            </div>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Threat level:
+                                </span>
+                                <?php
+                                $sLevel = 5;
+                                $iFilled = max(0, min($sLevel, $iThreat));
+                                $sDanger = $sLevel - $iFilled;
+                                for ($i = 0; $i < $iFilled; $i++) { ?>
+                                    <i class="fas fa-circle"></i>
+                                <?php }
+                                for ($i = 0; $i < $sDanger; $i++) { ?>
+                                    <i class="far fa-circle"></i>
+                                <?php } ?>
+                            </div>
+                            <div class="check-faction">
+                                <span class="check-subtitle">
+                                    Clearance level:
+                                </span>
+                                <?php
+                                $sLevel = 3;
+                                $iFilled = max(0, min($sLevel, $iClearance));
+                                $sDanger = $sLevel - $iFilled;
+                                for ($i = 0; $i < $iFilled; $i++) { ?>
+                                    <i class="fas fa-circle"></i>
+                                <?php }
+                                for ($i = 0; $i < $sDanger; $i++) { ?>
+                                    <i class="far fa-circle"></i>
+                                <?php } ?>
+                            </div>
+                        </td>
+                        <td class="check-details-spacer">&nbsp;</td>
+                        <td>
+                            <?php if ($sBirthday !== '') { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        Date of Birth:
+                                    </span>
+                                    <?php echo $escape($sBirthday); ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($sHomeplanet !== '') { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        Home Planet:
+                                    </span>
+                                    <?php echo $escape($sHomeplanet); ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($sIcc !== '') { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        ICC ID:
+                                    </span>
+                                    <?php echo $escape($sIcc); ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($sCardId !== '') { ?>
+                                <div class="check-faction">
+                                    <span class="check-subtitle">
+                                        Card ID:
+                                    </span>
+                                    <?php echo $escape($sCardId); ?>
+                                </div>
+                            <?php } ?>
+                        </td>
+                    </tr>
+                </table>
+                <?php if ($sNotes !== '') { ?>
+                    <div class="check-faction check-doublecolumn">
+                        <span class="check-subtitle">
+                            Notes:
+                        </span>
+                        <?php echo nl2br($escape($sNotes)); ?>
+                    </div>
+                <?php } ?>
+                <?php if (isset($travels)) { ?>
+                    <div class="check-faction check-doublecolumn">
+                        <span class="check-subtitle">
+                            Travel logs:
+                        </span>
+                        <table class="checking-table" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Access</th>
+                                    <th>Reason</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($travels as $travel) {
+                                $sTDate = isset($travel["date"]) ? (string)$travel["date"] : '';
+                                $sTTime = isset($travel["time"]) ? (string)$travel["time"] : '';
+                                $sTReason = isset($travel["reason"]) ? (string)$travel["reason"] : '';
+                                $sTNote = isset($travel["note"]) ? (string)$travel["note"] : '';
+                                ?>
+                                <tr class="travel-line">
+                                    <td class="travel-line-date">
+                                        <?php echo $escape($sTDate); ?>
+                                    </td>
+                                    <td class="travel-line-time">
+                                        <?php echo $escape($sTTime); ?>
+                                    </td>
+                                    <td class="travel-line-access">
+                                        <?php echo ($travel["access"] == 1) ? "Checked in" : "Checked out"; ?>
+                                    </td>
+                                    <td>
+                                        <?php if (trim($sTReason) !== '') { ?>
+                                            <i class="fas fa-clipboard">
+                                                <div class="tooltip">
+                                                    <?php echo nl2br($escape($sTReason)); ?>
+                                                </div>
+                                            </i>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php if (trim($sTNote) !== '') { ?>
+                                            <i class="fas fa-sticky-note">
+                                                <div class="tooltip">
+                                                    <?php echo nl2br($escape($sTNote)); ?>
+                                                </div>
+                                            </i>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php } ?>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <?php
+    } else {
+        ?>
+        <div class="bastion-modal-error">
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+            <span>Unable to find character record. Invalid Card ID, ICC Number, or Character ID.</span>
+        </div>
+        <?php
+    }
+    return;
 }
 ?>
 
@@ -41,24 +281,24 @@ include ('includes/inc.header.php');
             <?php } ?>
             <div class="check-image">
                 <?php
-                $status = $aRes[1]["status"];
+                $status = (string)$aRes[1]["status"];
                 if (str_contains($status, "figu")) {
                     $sImage = "./images/mugs/npc/" . $aRes[1]["figu_accountID"] . ".jpg";
                 } else {
                     $sImage = "./images/mugs/" . $aRes[1]["characterID"] . ".jpg";
                 }
                 if (file_exists($sImage)) {
-                    echo '<img class="portrait" src="' . $sImage . '" />';
+                    echo '<img class="portrait" src="' . $escape($sImage) . '" />';
                 } else { ?>
                     <img class="portrait" src="./images/pending.png" />
                 <?php } ?>
 
-                <img class="faction-logo" src="./images/logos/<?php echo $aRes[1]["faction"] ?>.png" />
+                <img class="faction-logo" src="./images/logos/<?php echo $escape($aRes[1]["faction"]) ?>.png" />
             </div>
             <div class="check-right">
                 <div class="check-name check-doublecolumn">
-                    <?php echo $aRes[1]["character_name"] ?> <a
-                        href="edit_character.php?id=<?php echo $aRes[1]["characterID"]; ?>"><i
+                    <?php echo $escape($aRes[1]["character_name"]) ?> <a
+                        href="edit_character.php?id=<?php echo rawurlencode((string)$aRes[1]["characterID"]); ?>"><i
                             class="fas fa-wrench"></i></a>
                 </div>
                 <table>
@@ -68,21 +308,21 @@ include ('includes/inc.header.php');
                                 <span class="check-subtitle">
                                     Faction:
                                 </span>
-                                <?php echo $aRes[1]["faction"] ?>
+                                <?php echo $escape($aRes[1]["faction"]) ?>
                             </div>
                             <?php if ($aRes[1]["rank"]) { ?>
                                 <div class="check-faction">
                                     <span class="check-subtitle">
                                         Rank / Job:
                                     </span>
-                                    <?php echo $aRes[1]["rank"] ?>
+                                    <?php echo $escape($aRes[1]["rank"]) ?>
                                 </div>
                             <?php } ?>
                             <div class="check-faction">
                                 <span class="check-subtitle">
                                     Disposition:
                                 </span>
-                                <?php echo $aRes[1]["douane_disposition"] ?>
+                                <?php echo $escape($aRes[1]["douane_disposition"]) ?>
                             </div>
                             <div class="check-faction">
                                 <span class="check-subtitle">
@@ -138,7 +378,7 @@ include ('includes/inc.header.php');
                                     <span class="check-subtitle">
                                         Date of Birth:
                                     </span>
-                                    <?php echo $aRes[1]["ic_birthday"] ?>
+                                    <?php echo $escape($aRes[1]["ic_birthday"]) ?>
                                 </div>
                             <?php } ?>
                             <?php if ($aRes[1]["homeplanet"]) { ?>
@@ -146,7 +386,7 @@ include ('includes/inc.header.php');
                                     <span class="check-subtitle">
                                         Home Planet:
                                     </span>
-                                    <?php echo $aRes[1]["homeplanet"] ?>
+                                    <?php echo $escape($aRes[1]["homeplanet"]) ?>
                                 </div>
                             <?php } ?>
                             <?php if ($aRes[1]["ICC_number"]) { ?>
@@ -154,7 +394,7 @@ include ('includes/inc.header.php');
                                     <span class="check-subtitle">
                                         ICC ID:
                                     </span>
-                                    <?php echo $aRes[1]["ICC_number"] ?>
+                                    <?php echo $escape($aRes[1]["ICC_number"]) ?>
                                 </div>
                             <?php } ?>
                             <?php if ($aRes[1]["card_id"]) { ?>
@@ -162,21 +402,20 @@ include ('includes/inc.header.php');
                         <span class="check-subtitle">
                             Card ID:
                         </span>
-                        <?php echo $aRes[1]["card_id"] ?>
+                        <?php echo $escape($aRes[1]["card_id"]) ?>
                     </div>
                     <?php } ?>
                         </td>
                     </tr>
-                <tr>
+                </table>
                 <?php if ($aRes[1]["douane_notes"]) { ?>
                     <div class="check-faction check-doublecolumn">
                         <span class="check-subtitle">
                             Notes:
                         </span>
-                        <?php echo nl2br($aRes[1]["douane_notes"]) ?>
+                        <?php echo nl2br($escape($aRes[1]["douane_notes"])) ?>
                     </div>
                 <?php } ?>
-                </tr></table>
                 <?php
                 if (isset($travels)) {
                     ?>
@@ -208,10 +447,10 @@ include ('includes/inc.header.php');
                                 ?>
                                 <tr class="travel-line">
                                     <td class="travel-line-date">
-                                        <?php echo $travel["date"]; ?>
+                                        <?php echo $escape($travel["date"]); ?>
                                     </td>
                                     <td class="travel-line-time">
-                                        <?php echo $travel["time"]; ?>
+                                        <?php echo $escape($travel["time"]); ?>
                                     </td>
                                     <td class="travel-line-access">
                                         <?php
@@ -227,7 +466,7 @@ include ('includes/inc.header.php');
 
                                             <i class="fas fa-clipboard">
                                                 <div class="tooltip">
-                                                    <?php echo nl2br($travel["reason"]); ?>
+                                                    <?php echo nl2br($escape($travel["reason"])); ?>
                                                 </div>
                                             </i>
                                         <?php } ?>
@@ -236,7 +475,7 @@ include ('includes/inc.header.php');
                                         <?php if (!empty($travel["note"])) { ?>
                                             <i class="fas fa-sticky-note">
                                                 <div class="tooltip">
-                                                    <?php echo nl2br($travel["note"]); ?>
+                                                    <?php echo nl2br($escape($travel["note"])); ?>
                                                 </div>
                                             </i>
                                         <?php } ?>
